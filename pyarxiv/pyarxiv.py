@@ -19,9 +19,9 @@ class PyArxiv:
     def _add(self, func):
         self.commands.append(asyncio.ensure_future(func))
 
-    def query(self, msg, start=0, max_items=10, id_list=[], sync=True):
-        path = 'http://export.arxiv.org/api/query?search_query=all:{0}&start={1}&max_results={2}&id_list={3}'.format(msg, start, max_items,\
-                id_list)
+    def query(self, msg, start=0, max_items=10, id_list=[], sync=True, sort_order='relevance'):
+        path = 'http://export.arxiv.org/api/query?search_query=all:{0}&start={1}&max_results={2}&id_list={3}&sortOrder={4}'.format(msg, start, max_items,\
+                id_list, sort_type)
         if sync is False:
             self.commands.append(asyncio.ensure_future(self._get(path)))
         else:
