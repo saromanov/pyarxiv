@@ -20,6 +20,15 @@ class PyArxiv:
         self.commands.append(asyncio.ensure_future(func))
 
     def query(self, msg, start=0, max_items=10, id_list=[], sync=True, sort_order='relevance'):
+        ''' query is for searching papers
+            Args:
+                msg - target for the query
+                start - start page
+                max_items - max items for query
+                id_list - TODO
+                sync - True is getting data sync, False - gettin data as async
+                sort_order - sorting results
+        '''
         path = 'http://export.arxiv.org/api/query?search_query=all:{0}&start={1}&max_results={2}&id_list={3}&sortOrder={4}'.format(msg, start, max_items,\
                 id_list, sort_type)
         if sync is False:
