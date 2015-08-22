@@ -19,6 +19,14 @@ class PyArxiv:
     def _add(self, func):
         self.commands.append(asyncio.ensure_future(func))
 
+    def _req(self, path):
+        if sync is False:
+            self.commands.append(asyncio.ensure_future(self._get(path)))
+        else:
+            r = requests.get(path)
+            if r.status_code == 200:
+                return r.text
+
     def query(self, msg, start=0, max_items=10, id_list=[], sync=True, sort_order='relevance'
             author=''):
         ''' query is for searching papers
@@ -33,12 +41,7 @@ class PyArxiv:
 
         path = 'http://export.arxiv.org/api/query?search_query=all:{0}&start={1}&max_results={2}&id_list={3}&sortOrder={4}'.format(msg, start, max_items,\
                 id_list, sort_type)
-        if sync is False:
-            self.commands.append(asyncio.ensure_future(self._get(path)))
-        else:
-            r = requests.get(path)
-            if r.status_code == 200:
-                return r.text
+        return self._req(path)
 
     def queryByAuthor(self, authors, sync=True):
         ''' This method provides finding papers by author
@@ -51,12 +54,7 @@ class PyArxiv:
         for i in range(1, len(authors)):
             authorsreq += '+AND+au:{0}'.format(authors[i])
         path = 'http://export.arxiv.org/api/query?search_query={0}'.format(authorsreq)
-        if sync is False:
-            self.commands.append(asyncio.ensure_future(self._get(path)))
-        else:
-            r = requests.get(path)
-            if r.status_code == 200:
-                return r.text
+        return self._req(path)
 
     def metadata(self, subset, startdate, enddate):
         '''
