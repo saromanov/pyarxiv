@@ -23,11 +23,12 @@ class PyArxiv:
         if sync is False:
             self.commands.append(asyncio.ensure_future(self._get(path)))
         else:
+            print(path)
             r = requests.get(path)
             if r.status_code == 200:
                 return r.text
 
-    def query(self, msg, start=0, max_items=10, id_list=[], sync=True, sort_order='relevance',
+    def query(self, msg, start=0, max_items=10, id_list="", sync=True, sort_order='relevance',
             author=''):
         ''' query is for searching papers
             Args:
@@ -39,7 +40,7 @@ class PyArxiv:
                 sort_order - sorting results
         '''
 
-        path = 'http://export.arxiv.org/api/query?search_query=all:{0}&start={1}&max_results={2}&id_list={3}&sortOrder={4}'.format(msg, start, max_items,\
+        path = 'http://export.arxiv.org/api/query?search_query=all:{0}&start={1}&max_results={2}&id_list={3}&sortBy={4}'.format(msg, start, max_items,\
                 id_list, sort_order)
         return self._req(path, sync)
 
