@@ -27,7 +27,7 @@ class PyArxiv:
             if r.status_code == 200:
                 return r.text
 
-    def query(self, msg, start=0, max_items=10, id_list=[], sync=True, sort_order='relevance'
+    def query(self, msg, start=0, max_items=10, id_list=[], sync=True, sort_order='relevance',
             author=''):
         ''' query is for searching papers
             Args:
