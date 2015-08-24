@@ -19,7 +19,7 @@ class PyArxiv:
     def _add(self, func):
         self.commands.append(asyncio.ensure_future(func))
 
-    def _req(self, path):
+    def _req(self, path, sync):
         if sync is False:
             self.commands.append(asyncio.ensure_future(self._get(path)))
         else:
@@ -40,8 +40,8 @@ class PyArxiv:
         '''
 
         path = 'http://export.arxiv.org/api/query?search_query=all:{0}&start={1}&max_results={2}&id_list={3}&sortOrder={4}'.format(msg, start, max_items,\
-                id_list, sort_type)
-        return self._req(path)
+                id_list, sort_order)
+        return self._req(path, sync)
 
     def queryByAuthor(self, authors, sync=True):
         ''' This method provides finding papers by author
