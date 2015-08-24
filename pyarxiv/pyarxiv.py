@@ -1,5 +1,7 @@
 import asyncio
 import requests
+import xml.etree.ElementTree as ET
+import feedparser
 
 #Implementation of Arxiv API
 #http://arxiv.org/help/api/index
@@ -28,6 +30,11 @@ class PyArxiv:
             if r.status_code == 200:
                 return r.text
 
+    def _parsing(self, data):
+        res = feedparser.parse(data)
+        for item in res['entries']:
+            print(item['value'])
+
     def query(self, msg, start=0, max_items=10, id_list="", sync=True, sort_order='relevance',
             author=''):
         ''' query is for searching papers
@@ -42,7 +49,9 @@ class PyArxiv:
 
         path = 'http://export.arxiv.org/api/query?search_query=all:{0}&start={1}&max_results={2}&id_list={3}&sortBy={4}'.format(msg, start, max_items,\
                 id_list, sort_order)
-        return self._req(path, sync)
+        res = self._req(path, sync)
+        self._parsing(res)
+        return res
 
     def queryByAuthor(self, authors, sync=True):
         ''' This method provides finding papers by author
