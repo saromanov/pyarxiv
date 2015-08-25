@@ -30,6 +30,10 @@ class PyArxiv:
                 return r.text
 
     def parse(self, data):
+        ''' parse provides parsing with feedparser, from output of query
+            Args:
+                data - result from 'query'
+        '''
         return feedparser.parse(data)
 
     def query(self, msg, start=0, max_items=10, id_list="", sync=True, sort_order='relevance',
