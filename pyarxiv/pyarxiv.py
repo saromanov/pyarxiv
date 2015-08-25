@@ -36,8 +36,7 @@ class PyArxiv:
         '''
         return feedparser.parse(data)
 
-    def query(self, msg, start=0, max_items=10, id_list="", sync=True, sort_order='relevance',
-            author=''):
+    def query(self, msg, start=0, max_items=10, id_list="", sync=True, sort_order='relevance'):
         ''' query is for searching papers
             Args:
                 msg - target for the query
@@ -56,15 +55,15 @@ class PyArxiv:
     def queryByAuthor(self, authors, sync=True):
         ''' This method provides finding papers by author
             Args:
-                author - Target author
+                author - list of target authors
         '''
-        if len(author) == 0:
+        if len(authors) == 0:
             raise Exception("author parameter is empty")
         authorsq = 'au:{0}'.format(authors[0])
         for i in range(1, len(authors)):
-            authorsreq += '+AND+au:{0}'.format(authors[i])
-        path = 'http://export.arxiv.org/api/query?search_query={0}'.format(authorsreq)
-        return self._req(path)
+            authorsq += '+AND+au:{0}'.format(authors[i])
+        path = 'http://export.arxiv.org/api/query?search_query={0}'.format(authorsq)
+        return self._req(path, sync)
 
     def metadata(self, subset, startdate, enddate):
         '''
