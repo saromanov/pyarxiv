@@ -20,3 +20,10 @@ data = pyarxiv.PyArxiv()
 print(data.parse(data.queryByAuthor(['bengio'])))
 ```
 
+
+```python
+import pyarxiv
+data = pyarxiv = PyArxiv()
+print(data.parse(data.query('lstm', start=1, sync=False)))
+```
+
